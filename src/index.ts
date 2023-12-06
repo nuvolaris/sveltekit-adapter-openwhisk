@@ -59,7 +59,7 @@ export default function adapter(options: AdapterOptions): Adapter {
         debug
     } = options;
     return {
-        name: '@eslym/sveltekit-adapter-openwhisk',
+        name: '@nuvolaris/sveltekit-adapter-openwhisk',
         async adapt(builder) {
             const tmp = builder.getBuildDirectory('adapter-node');
 
@@ -140,6 +140,15 @@ export default function adapter(options: AdapterOptions): Adapter {
             if (!polyfill) {
                 writeFileSync(`${out}/shims.js`, '', 'utf-8');
             }
+
+            // Adds package.json for module
+            writeFileSync(
+                `${out}/package.json`,
+                `{
+                    "type":"module",
+                    "main":"index.js"
+                }\n`
+            );
         }
     };
 }
