@@ -37,7 +37,7 @@ interface ActionResponse {
 const server = new Server(manifest);
 const dir = dirname(fileURLToPath(import.meta.url));
 
-const methodWitoutBody = new Set(['GET', 'HEAD']);
+const methodWitoutBody = new Set(['get', 'head']);
 
 const extraPlainText = new Set([
     'application/javascript',
@@ -107,7 +107,7 @@ async function handleSSR(url: URL, args: OpenWhiskRequest): Promise<ActionRespon
         method: args.__ow_method,
         headers: args.__ow_headers
     };
-    if (!methodWitoutBody.has(args.__ow_method)) {
+    if (!methodWitoutBody.has(args.__ow_method.toLowerCase())) {
         opts.body = Buffer.from(args.__ow_body, 'base64');
     }
     const request = new Request(url);
